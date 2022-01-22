@@ -193,11 +193,21 @@ void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
 }
 
-// Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_set_layer_state(0, layer_state_cmp(state, L_RAISE));
-  rgblight_set_layer_state(1, layer_state_cmp(state, L_LOWER));
-  rgblight_set_layer_state(2, layer_state_cmp(state, L_ADJUST));
+  switch (layer_state) {
+      case L_LOWER:
+          rgblight_set_layer_state(0, layer_state_cmp(state, L_RAISE));
+          break;
+      case L_RAISE:
+          rgblight_set_layer_state(1, layer_state_cmp(state, L_LOWER));
+          break;
+      case L_ADJUST:
+          rgblight_set_layer_state(2, layer_state_cmp(state, L_ADJUST));
+          break;
+      default:
+          rgblight_enable();
+          break;
+  }
   return state;
 }
 
