@@ -1,0 +1,19 @@
+#! /bin/bash
+
+set -e
+
+brew install qmk/qmk/qmk
+qmk setup -y --home "$(realpath $(dirname $0))/qmk_firmware"
+qmk config user.keyboard=crkbd/r2g
+qmk config user.keymap=Ad01
+
+echo "Symlinking personal keymaps"
+ln -sf ../../../../crkbd/Ad01 qmk_firmware/keyboards/crkbd/keymaps/Ad01
+
+echo "Compiling personal keymap to test everything is OK"
+qmk compile
+
+echo
+echo "READY!"
+echo "Let's break some keyboards!"
+echo

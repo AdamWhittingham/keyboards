@@ -1,3 +1,5 @@
+.PHONY: install edit flash build
+
 build:
 	qmk compile -km Ad01
 	ls qmk_firmware/.build
@@ -5,10 +7,8 @@ build:
 flash:
 	qmk flash -km Ad01
 
-.PHONY: setup
-setup:
-	./setup
+install:
+	./install
 
-.PHONY: edit
 edit:
 	nvim ./qmk_firmware/keyboards/crkbd/keymaps/Ad01/keymap.c
