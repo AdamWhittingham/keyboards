@@ -1,0 +1,7 @@
+#! /bin/bash
+
+brew install qmk/qmk/qmk
+mkdir -p ~/projects/keyboards
+qmk setup -y --home ~/projects/keyboards/qmk_firmware
+qmk config user.keyboard=crkbd/r2g
+qmk compile -kb crkbd/r2g -km default
