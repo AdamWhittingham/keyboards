@@ -70,6 +70,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+#define L_BASE 0
+#define L_LOWER 1
+#define L_RAISE 2
+#define L_ADJUST 3
+
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master()) {
@@ -77,11 +82,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   }
   return rotation;
 }
-
-#define L_BASE 0
-#define L_LOWER 1
-#define L_RAISE 2
-#define L_ADJUST 3
 
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
@@ -170,7 +170,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+#endif // OLED_ENABLE
 
+#ifdef RGBLIGHT_ENABLE
 const rgblight_segment_t PROGMEM l_raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {1, 6, HSV_CYAN}
 );
@@ -193,22 +195,23 @@ void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
 }
 
+// Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
+  rgblight_set_layer_state(0, layer_state_cmp(state, L_RAISE));
+  rgblight_set_layer_state(1, layer_state_cmp(state, L_LOWER));
+  rgblight_set_layer_state(2, layer_state_cmp(state, L_ADJUST));
+
   switch (layer_state) {
       case L_LOWER:
-          rgblight_set_layer_state(0, layer_state_cmp(state, L_RAISE));
           break;
       case L_RAISE:
-          rgblight_set_layer_state(1, layer_state_cmp(state, L_LOWER));
           break;
       case L_ADJUST:
-          rgblight_set_layer_state(2, layer_state_cmp(state, L_ADJUST));
           break;
       default:
-          rgblight_enable();
           break;
   }
+
   return state;
 }
-
-#endif // OLED_ENABLE
+#endif // RGBLIGHT_ENABLE
