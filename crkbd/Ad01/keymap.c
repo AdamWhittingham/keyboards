@@ -173,16 +173,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif // OLED_ENABLE
 
 #ifdef RGBLIGHT_ENABLE
+// Underglow LEDs (Left side, viewed from above)
+// 2   1   0
+// 3   4   5
+//
+// Keyboard LEDs (Left side)
+//  23  18  17  10  9
+//  22  19  16  11  8
+//  21  20  15  12  7
+//           14  13  6
+//
+// LEDs 24, 25, and 26 don't exist.
+//
+// Underglow LEDs (Right side, viewed from above)
+// 27  28  29
+// 32  31  30
+//
+// Keyboard LEDs (Right side)
+//   36  37  44  45  50
+//   35  38  43  46  49
+//   34  39  42  47  48
+//  33  40  41
+
 const rgblight_segment_t PROGMEM l_raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 6, HSV_CYAN}
+    {6, 1, HSV_CYAN},
+    {13, 2, HSV_CYAN},
+    {33, 1, HSV_CYAN},
+    {40, 2, HSV_CYAN}
 );
 
 const rgblight_segment_t PROGMEM l_lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 6, HSV_PURPLE}
+    {6, 1, HSV_PURPLE},
+    {13, 2, HSV_PURPLE},
+    {33, 1, HSV_PURPLE},
+    {40, 2, HSV_PURPLE}
 );
 
 const rgblight_segment_t PROGMEM l_adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {1, 6, HSV_GREEN}
+    {6, 1, HSV_GREEN},
+    {13, 2, HSV_GREEN},
+    {33, 1, HSV_GREEN},
+    {40, 2, HSV_GREEN}
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
