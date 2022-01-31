@@ -19,16 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
-#define L_QWERTY 0
-#define L_NUM 1
-#define L_SYM 2
-#define L_CTL 3
-
 const uint16_t ESCCMD = MT(KC_LCMD, KC_ESC);
 const uint16_t SHFENT = MT(MOD_LSFT, KC_ENT);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [L_QWERTY] = LAYOUT_split_3x6_3(
+  [0] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -41,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   ),
 
-  [L_NUM] = LAYOUT_split_3x6_3(
+  [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_GRV,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                        KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,    KC_0, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -53,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [L_SYM] = LAYOUT_split_3x6_3(
+  [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -65,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [L_CTL] = LAYOUT_split_3x6_3(
+  [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -78,6 +73,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+#define L_QWERTY 0
+#define L_NUM 2
+#define L_SYM 4
+#define L_CTL 8
+
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master()) {
@@ -89,19 +89,19 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
-        case 0: // L_QWERTY
+        case L_QWERTY:
             oled_write_ln_P(PSTR("QWERTY"), false);
             break;
-        case 2: // L_NUM
+        case L_NUM:
             oled_write_ln_P(PSTR("NUMBER"), false);
             break;
-        case 4: // L_SYM
+        case L_SYM:
             oled_write_ln_P(PSTR("SYMBOL"), false);
             break;
-        case 8: // L_CTL
-        case 8|2:
-        case 8|4:
-        case 8|4|2:
+        case L_CTL:
+        case L_CTL|L_NUM:
+        case L_CTL|L_SYM:
+        case L_CTL|L_SYM|L_NUM:
             oled_write_ln_P(PSTR("CONTROL"), false);
             break;
     }
@@ -233,9 +233,9 @@ void keyboard_post_init_user(void) {
 
 // Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_set_layer_state(L_NUM, layer_state_cmp(state, L_NUM));
-  rgblight_set_layer_state(L_SYM, layer_state_cmp(state, L_SYM));
-  rgblight_set_layer_state(L_CTL, layer_state_cmp(state, L_CTL));
+  rgblight_set_layer_state(0, layer_state_cmp(state, L_NUM));
+  rgblight_set_layer_state(1, layer_state_cmp(state, L_SYM));
+  rgblight_set_layer_state(2, layer_state_cmp(state, L_CTL));
 
   switch (layer_state) {
       case L_NUM:
