@@ -4,3 +4,4 @@ OLED_ENABLE     = yes
 OLED_DRIVER     = SSD1306
 LTO_ENABLE      = yes
 VIA_ENABLE      = no
+AUTO_SHIFT_ENABLE = yes
