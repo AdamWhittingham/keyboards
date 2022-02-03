@@ -233,9 +233,9 @@ void keyboard_post_init_user(void) {
 
 // Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_set_layer_state(0, layer_state_cmp(state, L_NUM));
-  rgblight_set_layer_state(1, layer_state_cmp(state, L_SYM));
-  rgblight_set_layer_state(2, layer_state_cmp(state, L_CTL));
+  rgblight_set_layer_state(0, layer_state_cmp(state, 1));
+  rgblight_set_layer_state(1, layer_state_cmp(state, 2));
+  rgblight_set_layer_state(2, layer_state_cmp(state, 3));
 
   switch (layer_state) {
       case L_NUM:
