@@ -1,7 +1,13 @@
-MOUSEKEY_ENABLE = no     # Mouse keys
-RGBLIGHT_ENABLE = yes    # Enable WS2812 RGB underlight.
-OLED_ENABLE     = yes
-OLED_DRIVER     = SSD1306
-LTO_ENABLE      = yes
-VIA_ENABLE      = no
-AUTO_SHIFT_ENABLE = yes
+LTO_ENABLE        = yes
+OLED_ENABLE       = yes
+OLED_DRIVER       = SSD1306
+RGBLIGHT_ENABLE   = yes
+RGBLIGHT_SLEEP    = yes
+
+# Space saving
+AUTO_SHIFT_ENABLE = no
+AUDIO_ENABLE      = no
+CONSOLE_ENABLE    = no
+COMMAND_ENABLE    = no
+MOUSEKEY_ENABLE   = no
+VIA_ENABLE        = no
