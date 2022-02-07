@@ -5,7 +5,7 @@ RGBLIGHT_ENABLE   = yes
 RGBLIGHT_SLEEP    = yes
 
 # Space saving
-AUTO_SHIFT_ENABLE = no
+AUTO_SHIFT_ENABLE = yes
 AUDIO_ENABLE      = no
 CONSOLE_ENABLE    = no
 COMMAND_ENABLE    = no
