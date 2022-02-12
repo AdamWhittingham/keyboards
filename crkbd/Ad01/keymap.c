@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const uint16_t ESCCMD = MT(KC_LCMD, KC_ESC);
 const uint16_t SHFENT = MT(MOD_LSFT, KC_ENT);
 const uint16_t PLYNXT = MT(KC_MPLY, KC_MNXT);
+const uint16_t CMDTO0 = MT(KC_LCMD, TO(0));
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
@@ -32,9 +33,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  ESCCMD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LCMD,   TO(0),  KC_SPC,     SHFENT,   TO(1), KC_RALT
+                                          KC_LCTL,  CMDTO0,  KC_SPC,     SHFENT,   TO(1), KC_LALT
                                       //`--------------------------'  `--------------------------'
-
   ),
 
   [1] = LAYOUT_split_3x6_3(
@@ -202,18 +202,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   rgblight_set_layer_state(0, layer_state_cmp(state, 1));
   rgblight_set_layer_state(1, layer_state_cmp(state, 2));
   rgblight_set_layer_state(2, layer_state_cmp(state, 3));
-
-  switch (layer_state) {
-      case L_NUM:
-          break;
-      case L_SYM:
-          break;
-      case L_CTL:
-          break;
-      default:
-          break;
-  }
-
   return state;
 }
 #endif // RGBLIGHT_ENABLE
