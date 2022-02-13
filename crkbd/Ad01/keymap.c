@@ -90,22 +90,22 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
-        case L_QWERTY:
-            oled_write_ln_P(PSTR("QWERTY"), false);
-            break;
         case L_NUM:
-            oled_write_ln_P(PSTR("NUMBER"), false);
+            oled_write_P(PSTR("NUMBER"), false);
             break;
         case L_SYM:
-            oled_write_ln_P(PSTR("SYMBOL"), false);
+            oled_write_P(PSTR("SYMBOL"), false);
             break;
         case L_CTL:
         case L_CTL|L_NUM:
         case L_CTL|L_SYM:
         case L_CTL|L_SYM|L_NUM:
-            oled_write_ln_P(PSTR("CONTROL"), false);
+            oled_write_P(PSTR("CONTROL"), false);
             break;
+        default:
+            oled_write_P(PSTR("QWERTY"), false);
     }
+    oled_write_P(PSTR("\n"), false);
     oled_write_P(PSTR("WPM: "), false);
     oled_write(get_u8_str(get_current_wpm(), ' '), false);
 }
@@ -137,7 +137,6 @@ void oled_render_logo(void) {
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
-        //oled_render_keylog();
     } else {
         oled_render_logo();
     }
