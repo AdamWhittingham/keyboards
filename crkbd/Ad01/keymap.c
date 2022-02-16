@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const uint16_t ESCCMD = MT(KC_LCMD, KC_ESC);
 const uint16_t SHFENT = MT(MOD_LSFT, KC_ENT);
 const uint16_t PLYNXT = MT(KC_MPLY, KC_MNXT);
-const uint16_t CMDTO0 = MT(KC_LCMD, TO(0));
+const uint16_t SPCCMD = MT(MOD_LGUI, KC_SPC);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_split_3x6_3(
@@ -33,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  ESCCMD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LCMD,   TO(0),  KC_SPC,     SHFENT,   TO(1), KC_LALT
+                                           OSL(3),   TO(0),  SPCCMD,     SHFENT,   TO(1), KC_LALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -41,9 +41,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_GRV,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                        KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,    KC_0, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,   KC_LT,   KC_GT, KC_LPRN, KC_RPRN,  KC_DQT,                      KC_EQL , KC_PLUS, KC_MINS, KC_ASTR, KC_SLSH, XXXXXXX,
+      _______, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX,                      XXXXXXX, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_UNDS, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS, _______,
+      _______, XXXXXXX, KC_VOLD, KC_VOLU,  PLYNXT, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______,   TO(2), _______
                                       //`--------------------------'  `--------------------------'
@@ -51,33 +51,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______,
+        RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
+      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, _______,
+      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX,  PLYNXT, KC_VOLU, KC_VOLD, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______,   TO(3), _______
+                                          _______, _______, _______,    _______,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
+        RESET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT,  KC_F12,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MUTE, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX,  PLYNXT, KC_VOLU, KC_VOLD, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX,  KC_CUT, KC_COPY,KC_PASTE, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______, _______,    _______,   TO(0), _______
+                                          _______, _______, _______,    _______,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
   )
 };
 
 #define L_QWERTY 0
 #define L_NUM 2
-#define L_SYM 4
-#define L_CTL 8
+#define L_CTL 4
+#define L_ONE 8
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -91,16 +91,13 @@ void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case L_NUM:
-            oled_write_P(PSTR("NUMBER"), false);
-            break;
-        case L_SYM:
-            oled_write_P(PSTR("SYMBOL"), false);
+            oled_write_P(PSTR("NUMSYM"), false);
             break;
         case L_CTL:
-        case L_CTL|L_NUM:
-        case L_CTL|L_SYM:
-        case L_CTL|L_SYM|L_NUM:
             oled_write_P(PSTR("CONTROL"), false);
+            break;
+        case L_ONE:
+            oled_write_P(PSTR("1-SHOT"), false);
             break;
         default:
             oled_write_P(PSTR("QWERTY"), false);
@@ -167,31 +164,31 @@ bool oled_task_user(void) {
 //   34  39  42  47  48
 //  33  40  41
 
-const rgblight_segment_t PROGMEM layer_num_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_CYAN},
     {13, 2, HSV_CYAN},
     {33, 1, HSV_CYAN},
     {40, 2, HSV_CYAN}
 );
 
-const rgblight_segment_t PROGMEM layer_sym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {6, 1, HSV_GOLD},
+    {13, 2, HSV_GOLD},
+    {33, 1, HSV_GOLD},
+    {40, 2, HSV_GOLD}
+);
+
+const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_PURPLE},
     {13, 2, HSV_PURPLE},
     {33, 1, HSV_PURPLE},
     {40, 2, HSV_PURPLE}
 );
 
-const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {6, 1, HSV_GREEN},
-    {13, 2, HSV_GREEN},
-    {33, 1, HSV_GREEN},
-    {40, 2, HSV_GREEN}
-);
-
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    layer_num_lights,
-    layer_sym_lights,
-    layer_ctl_lights
+    layer_numsym_lights,
+    layer_ctl_lights,
+    layer_oneshot_lights
 );
 
 void keyboard_post_init_user(void) {
