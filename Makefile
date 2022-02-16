@@ -11,4 +11,4 @@ install:
 	./install
 
 edit:
-	$EDITOR ./qmk_firmware/keyboards/crkbd/keymaps/Ad01/keymap.c
+	$$EDITOR ./qmk_firmware/keyboards/crkbd/keymaps/Ad01/keymap.c
