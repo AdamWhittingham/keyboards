@@ -24,7 +24,7 @@ const uint16_t SHFENT = MT(MOD_LSFT, KC_ENT);
 const uint16_t PLYNXT = MT(KC_MPLY, KC_MNXT);
 const uint16_t SPCCMD = MT(MOD_LGUI, KC_SPC);
 const uint16_t ALFRED = LCMD(KC_SPC);
-const uint16_t OS_CTRL = OSM(MOD_LCTRL);
+const uint16_t OS_CTL = OSM(MOD_LCTL);
 const uint16_t OS_CMD = OSM(MOD_LGUI);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -50,16 +50,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, KC_VOLD, KC_VOLU,  PLYNXT, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______,   TO(2), _______
+                                          _______, _______, _______,    _______,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
   ),
 
   // CONTROL Layer - PC & Keyboard controls
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        RESET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
+      XXXXXXX, RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MUTE,  PLYNXT, KC_VOLU, KC_VOLD, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -70,11 +70,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ONESHOT Layer - Quick access to keys often pressed once
   [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        RESET,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      OS_CTRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  PLYNXT,                      KC_TILD, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC,  KC_F12,
+       OS_CTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  PLYNXT,                      KC_TILD, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       OS_CMD, RGB_TOG,  KC_CUT, KC_COPY,KC_PASTE, KC_MUTE,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS, _______,
+       OS_CMD, RGB_TOG,  KC_CUT, KC_COPY,KC_PASTE, KC_MUTE,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS,   TO(2),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,     ALFRED,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
