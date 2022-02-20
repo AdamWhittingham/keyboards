@@ -40,6 +40,11 @@
     #define RGBLIGHT_LAYERS
     #define RGBLIGHT_SLEEP
 
+    // Set Startup to preferred gradient
+    #define RGB_MATRIX_STARTUP_HUE 60
+    #define RGB_MATRIX_STARTUP_SAT 255
+    #define RGB_MATRIX_STARTUP_VAL 128
+
     #undef RGBLIGHT_ANIMATIONS
     #undef RGBLIGHT_EFFECT_BREATHING
     #undef RGBLIGHT_EFFECT_RAINBOW_MOOD

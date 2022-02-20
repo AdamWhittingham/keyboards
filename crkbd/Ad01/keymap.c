@@ -94,13 +94,13 @@ void oled_render_layer_state(void) {
             oled_write_P(PSTR("NUMSYM"), false);
             break;
         case L_CTL:
-            oled_write_P(PSTR("CONTROL"), false);
+            oled_write_P(PSTR("CTRL"), false);
             break;
         case L_ONE:
             oled_write_P(PSTR("1-SHOT"), false);
             break;
         default:
-            oled_write_P(PSTR("QWERTY"), false);
+            oled_write_P(PSTR("Normal"), false);
     }
     oled_write_P(PSTR("\n"), false);
     oled_write_P(PSTR("WPM: "), false);
@@ -165,6 +165,7 @@ bool oled_task_user(void) {
 //  33  40  41
 
 const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 5, HSV_CYAN},
     {6, 1, HSV_CYAN},
     {13, 2, HSV_CYAN},
     {33, 1, HSV_CYAN},
@@ -172,17 +173,19 @@ const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS
 );
 
 const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 5, HSV_WHITE},
+    {6, 1, HSV_WHITE},
+    {13, 2, HSV_WHITE},
+    {33, 1, HSV_WHITE},
+    {40, 2, HSV_WHITE}
+);
+
+const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {1, 5, HSV_GOLD},
     {6, 1, HSV_GOLD},
     {13, 2, HSV_GOLD},
     {33, 1, HSV_GOLD},
     {40, 2, HSV_GOLD}
-);
-
-const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {6, 1, HSV_PURPLE},
-    {13, 2, HSV_PURPLE},
-    {33, 1, HSV_PURPLE},
-    {40, 2, HSV_PURPLE}
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
