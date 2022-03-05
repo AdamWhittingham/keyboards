@@ -26,6 +26,10 @@ const uint16_t SPCCMD = MT(MOD_LGUI, KC_SPC);
 const uint16_t ALFRED = LCMD(KC_SPC);
 const uint16_t OS_CTL = OSM(MOD_LCTL);
 const uint16_t OS_CMD = OSM(MOD_LGUI);
+const uint16_t WINL = LAG(KC_LEFT);
+const uint16_t WINR = LAG(KC_RIGHT);
+const uint16_t WINF = LAG(KC_F);
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // QWERTY Layer - normal typing
@@ -44,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // NUMSYM Layer - Numbers and symbols
   [1] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                        KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,    KC_0, _______,
+       KC_GRV,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                        KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,    KC_0,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX,                      KC_TILD, KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -72,9 +76,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       OS_CTL, XXXXXXX, XXXXXXX, XXXXXXX, KC_MNXT, KC_MPLY,                      KC_TILD, KC_UNDS,  KC_EQL, KC_LBRC, KC_RBRC, XXXXXXX,
+      XXXXXXX,    WINL,    WINR,    WINF, KC_MNXT, KC_MPLY,                      KC_TILD, KC_UNDS,  KC_EQL, KC_LBRC, KC_RBRC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       OS_CMD, RGB_TOG,  KC_CUT, KC_COPY,KC_PASTE, KC_MUTE,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS,   TO(2),
+      XXXXXXX, RGB_TOG,  KC_CUT, KC_COPY,KC_PASTE, KC_MUTE,                      XXXXXXX, KC_HASH, XXXXXXX, XXXXXXX, KC_BSLS,   TO(2),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,     ALFRED,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
