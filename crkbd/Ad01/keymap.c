@@ -27,11 +27,20 @@ const uint16_t ALFRED = LCMD(KC_SPC);
 const uint16_t OS_CTL = OSM(MOD_LCTL);
 const uint16_t OS_CMD = OSM(MOD_LGUI);
 
+// Rectangle window sizing
 const uint16_t WINL = LAG(KC_LEFT);
 const uint16_t WINR = LAG(KC_RIGHT);
 const uint16_t WINU = LAG(KC_UP);
 const uint16_t WIND = LAG(KC_DOWN);
 const uint16_t WINF = LAG(KC_F);
+
+// App switching
+const uint16_t WEB = MEH(KC_W);
+const uint16_t CAL = MEH(KC_C);
+const uint16_t NOTES = MEH(KC_N);
+const uint16_t TERM = MEH(KC_T);
+const uint16_t SLACK = MEH(KC_S);
+const uint16_t ZOOM = MEH(KC_Z);
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -64,9 +73,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // CONTROL Layer - PC & Keyboard controls
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        RESET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL,
+        RESET,     WEB,    TERM,   NOTES,     CAL,   SLACK,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,    WINL,    WIND,    WINU,    WINR,    WINF,                      _______, _______, _______, _______, _______, _______,
+      _______,    WINL,    WIND,    WINU,    WINR,    WINF,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, _______, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -81,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_MNXT, KC_MPLY,                      KC_TILD, KC_UNDS,  KC_EQL, KC_LBRC, KC_RBRC, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, RGB_TOG,  KC_CUT, KC_COPY,KC_PASTE, KC_MUTE,                      XXXXXXX, KC_HASH, XXXXXXX, XXXXXXX, KC_BSLS,   TO(2),
+      XXXXXXX, RGB_TOG,  KC_CUT, KC_COPY,KC_PASTE, KC_MUTE,                      XXXXXXX, KC_HASH, XXXXXXX, XXXXXXX, KC_BSLS,   RESET,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______,   TO(0), _______,     ALFRED,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
