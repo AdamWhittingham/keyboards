@@ -1,4 +1,6 @@
-.PHONY: install edit flash build
+.PHONY: install edit flash build default
+	
+default: flash
 
 build:
 	qmk compile -km Ad01
