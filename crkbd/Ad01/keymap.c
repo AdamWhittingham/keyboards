@@ -20,9 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 
 const uint16_t ESCCMD = CMD_T(KC_ESC);
-const uint16_t SHFENT = MT(MOD_LSFT, KC_ENT);
+const uint16_t SHFENT = SFT_T(KC_ENT);
 const uint16_t PLYNXT = MT(KC_MPLY, KC_MNXT);
-const uint16_t SPCCMD = MT(MOD_LGUI, KC_SPC);
+const uint16_t SPCCMD = CMD_T(KC_SPC);
 const uint16_t ALFRED = LCMD(KC_SPC);
 const uint16_t MODSFT = OSM(MOD_LSFT);
 
