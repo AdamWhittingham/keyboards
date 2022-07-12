@@ -32,6 +32,9 @@ const uint16_t WINR = LAG(KC_RIGHT);
 const uint16_t WINU = LAG(KC_UP);
 const uint16_t WIND = LAG(KC_DOWN);
 const uint16_t WINF = LAG(KC_F);
+// MacOS Next/Prev window for app
+const uint16_t WINN = LCMD(KC_GRV);
+const uint16_t WINP = LSG(KC_GRV);
 
 // App switching
 const uint16_t WEB = MEH(KC_W);
@@ -75,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // CONTROL Layer - PC & Keyboard controls
   [2] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGUP,   KC_UP, KC_PGDN,   TAB_N,  KC_DEL,
+       KC_GRV,    WINP,    WINN, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGUP,   KC_UP, KC_PGDN,   TAB_N,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    WINL,    WIND,    WINU,    WINR,    WINF,                       KC_END, KC_LEFT, KC_DOWN,KC_RIGHT,   TAB_P, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
