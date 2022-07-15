@@ -134,8 +134,10 @@ void oled_render_layer_state(void) {
             oled_write_P(PSTR("Normal"), false);
     }
     oled_write_P(PSTR("\n"), false);
-    oled_write_P(PSTR("WPM: "), false);
-    oled_write(get_u8_str(get_current_wpm(), ' '), false);
+    #ifdef WPM_ENABLE
+      oled_write_P(PSTR("WPM: "), false);
+      oled_write(get_u8_str(get_current_wpm(), ' '), false);
+    #endif
 }
 
 void render_bootmagic_status(bool status) {
@@ -234,3 +236,21 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return state;
 }
 #endif // RGBLIGHT_ENABLE
+
+#ifdef COMBO_ENABLE
+enum combos {
+  FJ_ESC,
+  JK_ESC,
+  DF_TAB,
+};
+
+const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+  [FJ_ESC] = COMBO(fj_combo, KC_ESC),
+  [JK_ESC] = COMBO(jk_combo, KC_ESC),
+  [DF_TAB] = COMBO(df_combo, KC_TAB)
+};
+#endif // COMBO_ENABLE
