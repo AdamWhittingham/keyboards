@@ -29,7 +29,7 @@
 // #define EE_HANDS
 
 //#define TAPPING_FORCE_HOLD
-//#define TAPPING_TERM 100
+#define TAPPING_TERM 250
 
 #define NO_AUTO_SHIFT_ALPHA
 #define COMBO_COUNT 4
