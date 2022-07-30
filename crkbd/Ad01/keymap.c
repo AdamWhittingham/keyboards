@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  ESCCMD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           OSL(3),   MO(2),  SPCCMD,     SHFENT,   MO(1), KC_LALT
+                                           OSL(4),   MO(2),  SPCCMD,     SHFENT,   MO(1), KC_LALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    LPAB,                         RPAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______,   MO(3), _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -87,12 +87,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MUTE,  PLYNXT, KC_VOLD, KC_VOLU, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, _______,    _______,   MO(3), _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  // MOUSE Layer - Mousekeys
+  [3] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_GRV, KC_ACL0, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, KC_ACL1, XXXXXXX, XXXXXXX, KC_BTN1, XXXXXXX,                      KC_BTN2, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, KC_ACL2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
+
   // ONESHOT Layer - Quick access to keys often pressed once
-  [3] = LAYOUT_split_3x6_3(
+  [4] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -105,12 +119,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+#ifdef COMBO_ENABLE
+enum combos {
+  FJ_ESC,
+  JK_ESC,
+  DF_TAB,
+};
+
+const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
+
+combo_t key_combos[COMBO_COUNT] = {
+  [FJ_ESC] = COMBO(fj_combo, KC_ESC),
+  [JK_ESC] = COMBO(jk_combo, KC_ESC),
+  [DF_TAB] = COMBO(df_combo, KC_TAB)
+};
+#endif // COMBO_ENABLE
+
+#ifdef OLED_ENABLE
 #define L_QWERTY 0
 #define L_NUM 2
 #define L_CTL 4
-#define L_ONE 8
+#define L_MUS 8
+#define L_ONE 16
 
-#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master()) {
     return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
@@ -119,40 +152,12 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case L_NUM:
-            oled_write_P(PSTR("NUMSYM"), false);
-            break;
-        case L_CTL:
-            oled_write_P(PSTR("CTRL"), false);
-            break;
-        case L_ONE:
-            oled_write_P(PSTR("1-SHOT"), false);
-            break;
-        default:
-            oled_write_P(PSTR("Normal"), false);
-    }
+    oled_write_P(PSTR("Hello World!"), false);
     oled_write_P(PSTR("\n"), false);
     #ifdef WPM_ENABLE
       oled_write_P(PSTR("WPM: "), false);
       oled_write(get_u8_str(get_current_wpm(), ' '), false);
     #endif
-}
-
-void render_bootmagic_status(bool status) {
-    /* Show Ctrl-Gui Swap options */
-    static const char PROGMEM logo[][2][3] = {
-        {{0x97, 0x98, 0}, {0xb7, 0xb8, 0}},
-        {{0x95, 0x96, 0}, {0xb5, 0xb6, 0}},
-    };
-    if (status) {
-        oled_write_ln_P(logo[0][0], false);
-        oled_write_ln_P(logo[0][1], false);
-    } else {
-        oled_write_ln_P(logo[1][0], false);
-        oled_write_ln_P(logo[1][1], false);
-    }
 }
 
 void oled_render_logo(void) {
@@ -236,21 +241,3 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return state;
 }
 #endif // RGBLIGHT_ENABLE
-
-#ifdef COMBO_ENABLE
-enum combos {
-  FJ_ESC,
-  JK_ESC,
-  DF_TAB,
-};
-
-const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
-
-combo_t key_combos[COMBO_COUNT] = {
-  [FJ_ESC] = COMBO(fj_combo, KC_ESC),
-  [JK_ESC] = COMBO(jk_combo, KC_ESC),
-  [DF_TAB] = COMBO(df_combo, KC_TAB)
-};
-#endif // COMBO_ENABLE
