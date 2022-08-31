@@ -26,8 +26,6 @@ const uint16_t SPCCMD = CMD_T(KC_SPC);
 const uint16_t ALFRED = LCMD(KC_SPC);
 const uint16_t SHF_S = SFT_T(KC_S);
 const uint16_t ALT_A = ALT_T(KC_A);
-const uint16_t LPAB = MT(KC_LABK, KC_LPRN);
-const uint16_t RPAB = MT(KC_RABK, KC_RPRN);
 
 // Rectangle window sizing
 const uint16_t WINL = LAG(KC_LEFT);
@@ -72,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_LALT, KC_LSFT, XXXXXXX, XXXXXXX, KC_LBRC,                      KC_RBRC, KC_MINS,  KC_EQL, KC_BSLS, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    LPAB,                         RPAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______,   MO(3), _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
