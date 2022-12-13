@@ -19,10 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
+const uint16_t CMDENT = CMD_T(KC_ENT);
 const uint16_t SFTESC = SFT_T(KC_ESC);
 const uint16_t PLYNXT = MT(KC_MPLY, KC_MNXT);
-const uint16_t CMDENT = CMD_T(KC_ENT);
-const uint16_t SHF_S = SFT_T(KC_S);
 
 // Rectangle window sizing
 const uint16_t WINL = LAG(KC_LEFT);
@@ -105,9 +104,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef COMBO_ENABLE
 enum combos {
-  FJ_ESC,
-  JK_ESC,
-  DF_TAB,
+    FJ_ESC,
+    JK_ESC,
+    DF_TAB,
 };
 
 const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
@@ -115,50 +114,49 @@ const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
-  [FJ_ESC] = COMBO(fj_combo, KC_ESC),
-  [JK_ESC] = COMBO(jk_combo, KC_ESC),
-  [DF_TAB] = COMBO(df_combo, KC_TAB)
+    [FJ_ESC] = COMBO(fj_combo, KC_ESC),
+    [JK_ESC] = COMBO(jk_combo, KC_ESC),
+    [DF_TAB] = COMBO(df_combo, KC_TAB)
 };
 #endif // COMBO_ENABLE
 
 #ifdef OLED_ENABLE
 #define L_QWERTY 0
 #define L_NUM 2
-#define L_CTL 4
-#define L_MUS 8
-#define L_ONE 16
+#define L_CMD 4
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-  if (!is_keyboard_master()) {
-    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-  }
-  return rotation;
+    if (!is_keyboard_master()) {
+        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+    }
+    return rotation;
 }
 
 void oled_render_layer_state(void) {
     switch (layer_state) {
-        case 0: // L_QWERTY
+        case L_QWERTY:
             oled_write_ln_P(PSTR("Qwerty"), false);
+            rgblight_set_layer_state(0, 2);
             break;
-        case 2: // L_NUM
-            oled_write_ln_P(PSTR("123"), false);
+        case L_NUM:
+            oled_write_ln_P(PSTR("123 ?#$"), false);
             break;
-        case 4: // L_SYM
-            oled_write_ln_P(PSTR("?#()"), false);
+        case L_CMD:
+            oled_write_ln_P(PSTR("CMD>"), false);
             break;
         case 8:
         case 8|2:
         case 8|4:
         case 8|4|2:
-            oled_write_ln_P(PSTR("CMD>"), false);
+            oled_write_ln_P(PSTR("1-SHOT"), false);
             break;
     }
 
     oled_write_P(PSTR("\n"), false);
-    #ifdef WPM_ENABLE
-      oled_write_P(PSTR("WPM: "), false);
-      oled_write(get_u8_str(get_current_wpm(), ' '), false);
-    #endif
+#ifdef WPM_ENABLE
+    oled_write_P(PSTR("WPM: "), false);
+    oled_write(get_u8_str(get_current_wpm(), ' '), false);
+#endif
 }
 
 void oled_render_logo(void) {
@@ -174,50 +172,40 @@ bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
     } else {
-        oled_render_logo();
+        oled_render_layer_state();
+        // oled_render_logo();
     }
     return false;
 }
 #endif // OLED_ENABLE
 
 #ifdef RGBLIGHT_ENABLE
-// Underglow LEDs (Left side, viewed from above)
-// 2   1   0
-// 3   4   5
-//
-// Keyboard LEDs (Left side)
-//  23  18  17  10  9
-//  22  19  16  11  8
-//  21  20  15  12  7
-//           14  13  6
+// Keyboard LEDs 
+//  23  18  17  10  9          36  37  44  45  50
+//  22  19  16  11  8          35  38  43  46  49
+//  21  20  15  12  7          34  39  42  47  48
+//            14  13  6      33  40  41
 //
 // LEDs 24, 25, and 26 don't exist.
-//
-// Underglow LEDs (Right side, viewed from above)
-// 27  28  29
-// 32  31  30
-//
-// Keyboard LEDs (Right side)
-//   36  37  44  45  50
-//   35  38  43  46  49
-//   34  39  42  47  48
-//  33  40  41
+// Underglow LEDs
+//            2   1   0       27  28  29
+//            3   4   5       32  31  30
 
-const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM led_layer_num[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_CYAN},
     {13, 2, HSV_CYAN},
     {33, 1, HSV_CYAN},
     {40, 2, HSV_CYAN}
 );
 
-const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {6, 1,  220, 255, 255},
+const rgblight_segment_t PROGMEM led_layer_cmd[] = RGBLIGHT_LAYER_SEGMENTS(
+    { 6, 1, 220, 255, 255},
     {13, 2, 220, 255, 255},
     {33, 1, 220, 255, 255},
     {40, 2, 220, 255, 255}
 );
 
-const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM led_layer_osl[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_GOLD},
     {13, 2, HSV_GOLD},
     {33, 1, HSV_GOLD},
@@ -225,20 +213,25 @@ const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENT
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    layer_numsym_lights,
-    layer_ctl_lights,
-    layer_oneshot_lights
-);
+        led_layer_num,
+        led_layer_cmd,
+        led_layer_osl
+    );
 
 void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
 }
 
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(1, layer_state_cmp(state, 0));
+    return state;
+}
+
 // Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_set_layer_state(0, layer_state_cmp(state, 1));
-  rgblight_set_layer_state(1, layer_state_cmp(state, 2));
-  rgblight_set_layer_state(2, layer_state_cmp(state, 3));
-  return state;
+    rgblight_set_layer_state(2, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(3, layer_state_cmp(state, 2));
+    return state;
 }
+
 #endif // RGBLIGHT_ENABLE

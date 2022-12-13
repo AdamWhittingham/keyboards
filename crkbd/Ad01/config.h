@@ -41,6 +41,7 @@
     #define RGBLIGHT_SAT_STEP 17
     #define RGBLIGHT_VAL_STEP 17
     #define RGBLIGHT_LAYERS
+    #define RGBLIGHT_MAX_LAYERS 4
     #define RGBLIGHT_SLEEP
 
     // Set Startup to preferred gradient
