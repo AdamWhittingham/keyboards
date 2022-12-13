@@ -19,13 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
-const uint16_t ESCCMD = CMD_T(KC_ESC);
-const uint16_t SHFENT = SFT_T(KC_ENT);
+const uint16_t SFTESC = SFT_T(KC_ESC);
 const uint16_t PLYNXT = MT(KC_MPLY, KC_MNXT);
-const uint16_t SPCCMD = CMD_T(KC_SPC);
-const uint16_t ALFRED = LCMD(KC_SPC);
+const uint16_t CMDENT = CMD_T(KC_ENT);
 const uint16_t SHF_S = SFT_T(KC_S);
-const uint16_t ALT_A = ALT_T(KC_A);
 
 // Rectangle window sizing
 const uint16_t WINL = LAG(KC_LEFT);
@@ -33,7 +30,8 @@ const uint16_t WINR = LAG(KC_RIGHT);
 const uint16_t WINU = LAG(KC_UP);
 const uint16_t WIND = LAG(KC_DOWN);
 const uint16_t WINF = LAG(KC_F);
-// MacOS Next/Prev window for app
+
+// Window switching
 const uint16_t WINN = LCMD(KC_GRV);
 const uint16_t WINP = LSG(KC_GRV);
 
@@ -44,6 +42,8 @@ const uint16_t NOTES = MEH(KC_N);
 const uint16_t TERM = MEH(KC_T);
 const uint16_t SLACK = MEH(KC_S);
 const uint16_t ZOOM = MEH(KC_Z);
+const uint16_t ALFRED = LCMD(KC_SPC);
+const uint16_t ONEPASS = LCMD(KC_BSLS);
 
 // Tab switching
 const uint16_t TAB_N = LCTL(KC_TAB);
@@ -57,9 +57,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  ESCCMD,
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  SFTESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           OSL(4),   MO(2),  SPCCMD,     SHFENT,   MO(1), KC_LALT
+                                           OSL(3),   MO(2),  CMDENT,     KC_SPC,   MO(1),  KC_LALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -89,28 +89,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-  // MOUSE Layer - Mousekeys
-  [3] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV, KC_ACL0, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_WH_D, KC_MS_U, KC_WH_U, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_ACL1, XXXXXXX, XXXXXXX, KC_BTN1, XXXXXXX,                      KC_BTN2, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_ACL2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-
   // ONESHOT Layer - Quick access to keys often pressed once
-  [4] = LAYOUT_split_3x6_3(
+  [3] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          ZOOM,     CAL,     WEB,   NOTES,    TERM,   SLACK,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   RESET,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______,   TO(0), _______,     ALFRED,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
@@ -150,7 +136,24 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Hello World!"), false);
+    switch (layer_state) {
+        case 0: // L_QWERTY
+            oled_write_ln_P(PSTR("Qwerty"), false);
+            break;
+        case 2: // L_NUM
+            oled_write_ln_P(PSTR("123"), false);
+            break;
+        case 4: // L_SYM
+            oled_write_ln_P(PSTR("?#()"), false);
+            break;
+        case 8:
+        case 8|2:
+        case 8|4:
+        case 8|4|2:
+            oled_write_ln_P(PSTR("CMD>"), false);
+            break;
+    }
+
     oled_write_P(PSTR("\n"), false);
     #ifdef WPM_ENABLE
       oled_write_P(PSTR("WPM: "), false);
