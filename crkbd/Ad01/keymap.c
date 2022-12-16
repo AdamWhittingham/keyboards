@@ -191,21 +191,21 @@ bool oled_task_user(void) {
 //            2   1   0       27  28  29
 //            3   4   5       32  31  30
 
-const rgblight_segment_t PROGMEM led_layer_num[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_CYAN},
     {13, 2, HSV_CYAN},
     {33, 1, HSV_CYAN},
     {40, 2, HSV_CYAN}
 );
 
-const rgblight_segment_t PROGMEM led_layer_cmd[] = RGBLIGHT_LAYER_SEGMENTS(
-    { 6, 1, 220, 255, 255},
+const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {6, 1,  220, 255, 255},
     {13, 2, 220, 255, 255},
     {33, 1, 220, 255, 255},
     {40, 2, 220, 255, 255}
 );
 
-const rgblight_segment_t PROGMEM led_layer_osl[] = RGBLIGHT_LAYER_SEGMENTS(
+const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_GOLD},
     {13, 2, HSV_GOLD},
     {33, 1, HSV_GOLD},
@@ -213,25 +213,20 @@ const rgblight_segment_t PROGMEM led_layer_osl[] = RGBLIGHT_LAYER_SEGMENTS(
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-        led_layer_num,
-        led_layer_cmd,
-        led_layer_osl
-    );
+    layer_numsym_lights,
+    layer_ctl_lights,
+    layer_oneshot_lights
+);
 
 void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
 }
 
-layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(1, layer_state_cmp(state, 0));
-    return state;
-}
-
 // Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(2, layer_state_cmp(state, 1));
-    rgblight_set_layer_state(3, layer_state_cmp(state, 2));
-    return state;
+  rgblight_set_layer_state(0, layer_state_cmp(state, 1));
+  rgblight_set_layer_state(1, layer_state_cmp(state, 2));
+  rgblight_set_layer_state(2, layer_state_cmp(state, 3));
+  return state;
 }
-
 #endif // RGBLIGHT_ENABLE
