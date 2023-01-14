@@ -281,12 +281,15 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 //            3   4   5       32  31  30
 
 const uint8_t num_row[] = {23, 18, 17, 10, 9, 36, 37, 44, 45, 50};
+const uint8_t underglow[] = {0, 1, 2, 3, 4, 5, 27, 28, 29, 30, 31, 32};
 
 bool rgb_matrix_indicators_user(void) {
     switch(get_highest_layer(layer_state|default_layer_state)) {
         case L_QWERTY: //QWERTY
-            //rgb_matrix_set_color_all(20, 20, 120);
-            rgb_matrix_set_color_all(20, 20, 20);
+            rgb_matrix_set_color_all(0, 0, 0);
+            for (uint8_t i = 0; i < sizeof(underglow); i++) {
+                rgb_matrix_set_color(underglow[i], RGB_WHITE);
+            }
             break;
         case L_NUM:
             rgb_matrix_set_color_all(0, 0, 0);
@@ -324,7 +327,7 @@ bool rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color(8,  46,  182, 125);   // Slack
 
             // Kbd control keys
-            rgb_matrix_set_color(53, 127, 0, 0); // RESET
+            rgb_matrix_set_color(53, RGB_RED); // RESET
             break;
     }
     return true;
