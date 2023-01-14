@@ -48,10 +48,15 @@ const uint16_t ONEPASS = LCMD(KC_BSLS);
 const uint16_t TAB_N = LCTL(KC_TAB);
 const uint16_t TAB_P = LCTL(LSFT(KC_TAB));
 
+#define L_QWERTY 0
+#define L_NUM 1
+#define L_CMD 2
+#define L_OSL 3
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // QWERTY Layer - normal typing
-  [0] = LAYOUT_split_3x6_3(
+  [L_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -64,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   // NUMSYM Layer - Numbers and symbols
-  [1] = LAYOUT_split_3x6_3(
+  [L_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_GRV,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                        KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,    KC_0,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -77,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   // CONTROL Layer - PC & Keyboard controls
-  [2] = LAYOUT_split_3x6_3(
+  [L_CMD] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_GRV,    WINP,    WINN, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGUP,   KC_UP, KC_PGDN,   TAB_N,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -90,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   // ONESHOT Layer - Quick access to keys often pressed once
-  [3] = LAYOUT_split_3x6_3(
+  [L_OSL] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -120,19 +125,18 @@ combo_t key_combos[COMBO_COUNT] = {
 #endif // COMBO_ENABLE
 
 #ifdef OLED_ENABLE
-#define L_QWERTY 0
-#define L_NUM 2
-#define L_CMD 4
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (!is_keyboard_master()) {
+        return OLED_ROTATION_90;
+    }else{
         return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
     }
     return rotation;
 }
 
 void oled_render_layer_state(void) {
-    switch (layer_state) {
+    switch(get_highest_layer(layer_state|default_layer_state)) {
         case L_QWERTY:
             oled_write_ln_P(PSTR("Qwerty"), false);
             break;
@@ -142,10 +146,7 @@ void oled_render_layer_state(void) {
         case L_CMD:
             oled_write_ln_P(PSTR("CMD>"), false);
             break;
-        case 8:
-        case 8|2:
-        case 8|4:
-        case 8|4|2:
+        case L_OSL:
             oled_write_ln_P(PSTR("1-SHOT"), false);
             break;
     }
@@ -170,7 +171,7 @@ bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
     } else {
-         oled_render_logo();
+        oled_render_logo();
     }
     return false;
 }
@@ -194,31 +195,31 @@ const rgblight_segment_t PROGMEM layer_qwerty[] = RGBLIGHT_LAYER_SEGMENTS(
 
 const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_CYAN},
-    {13, 2, HSV_CYAN},
+{13, 2, HSV_CYAN},
     {33, 1, HSV_CYAN},
     {40, 2, HSV_CYAN}
 );
 
 const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {6, 1,  220, 255, 255},
-    {13, 2, 220, 255, 255},
-    {33, 1, 220, 255, 255},
-    {40, 2, 220, 255, 255}
-);
+        {6, 1,  220, 255, 255},
+        {13, 2, 220, 255, 255},
+        {33, 1, 220, 255, 255},
+        {40, 2, 220, 255, 255}
+    );
 
 const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_GOLD},
-    {13, 2, HSV_GOLD},
+{13, 2, HSV_GOLD},
     {33, 1, HSV_GOLD},
     {40, 2, HSV_GOLD}
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    layer_qwerty,
-    layer_numsym_lights,
-    layer_ctl_lights,
-    layer_oneshot_lights
-);
+        layer_qwerty,
+        layer_numsym_lights,
+        layer_ctl_lights,
+        layer_oneshot_lights
+    );
 
 void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
@@ -226,45 +227,45 @@ void keyboard_post_init_user(void) {
 
 // Activate the rgb layer according to the active keyboard layer
 layer_state_t layer_state_set_user(layer_state_t state) {
-  rgblight_set_layer_state(0, layer_state_cmp(state, 0));
-  rgblight_set_layer_state(1, layer_state_cmp(state, 1));
-  rgblight_set_layer_state(2, layer_state_cmp(state, 2));
-  rgblight_set_layer_state(3, layer_state_cmp(state, 3));
-  return state;
+    rgblight_set_layer_state(0, layer_state_cmp(state, 0));
+    rgblight_set_layer_state(1, layer_state_cmp(state, 1));
+    rgblight_set_layer_state(2, layer_state_cmp(state, 2));
+    rgblight_set_layer_state(3, layer_state_cmp(state, 3));
+    return state;
 }
 #endif // RGBLIGHT_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
-void matrix_init_user(void) {
-}
+// Keyboard LEDs
+//  23  18  17  10  9          36  37  44  45  50
+//  22  19  16  11  8          35  38  43  46  49
+//  21  20  15  12  7          34  39  42  47  48
+//            14  13  6      33  40  41
+//
+// LEDs 24, 25, and 26 don't exist.
+// Underglow LEDs
+//            2   1   0       27  28  29
+//            3   4   5       32  31  30
 
-void keyboard_post_init_user(void) {
-}
+const uint8_t num_row[] = {23, 18, 17, 10, 9, 36, 37, 44, 45, 50};
 
 bool rgb_matrix_indicators_user(void) {
     switch(get_highest_layer(layer_state|default_layer_state)) {
-        case 0: //QWERTY
+        case L_QWERTY: //QWERTY
             rgb_matrix_set_color_all(20, 20, 120);
             break;
-        case 1:
+        case L_NUM:
             rgb_matrix_set_color_all(0, 0, 0); // rest of keys
-            rgb_matrix_set_color(29, 255, 0, 0); // key = BACKSPACE for RESET
-            rgb_matrix_set_color(81, 0, 100, 255); // key = ENTER
-            rgb_matrix_set_color(1, 0, 100, 255); // key = ENTER
-            rgb_matrix_set_color(17, 255, 100, 0); // key = 1 for cd to QMK
-            rgb_matrix_set_color(18, 255, 150, 0); // key = 2 for QMK COMPILE
-            rgb_matrix_set_color(19, 255, 250, 0); // key = 3 for MDLOADER
+            for (uint8_t i = 0; i < sizeof(num_row); i++) {
+                rgb_matrix_set_color(num_row[i], 255, 0, 0);
+            }
             break;
-        case 2:
+        case L_CMD:
             rgb_matrix_set_color_all(0,0,255); // rest of keys
             rgb_matrix_set_color(1, 0, 100, 255); // key = F1
-            rgb_matrix_set_color(81, 0, 100, 255); // key = Fn
-            rgb_matrix_set_color(62, 255, 0, 100); // key = ENTER
-            rgb_matrix_set_color(61, 255, 0, 100); // key = '
-            rgb_matrix_set_color(60, 255, 0, 100); // key = ;
-            rgb_matrix_set_color(59, 255, 0, 100); // key = l
-            rgb_matrix_set_color(79, 255, 0, 100); // key = SPACE
             break;
+        case L_OSL:
+            rgb_matrix_set_color_all(HSV_GOLD);
     }
     return true;
 }
