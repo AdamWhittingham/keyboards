@@ -256,7 +256,7 @@ bool rgb_matrix_indicators_user(void) {
         case L_NUM:
             rgb_matrix_set_color_all(0, 0, 0);
             for (uint8_t i = 0; i < sizeof(num_row); i++) {
-                rgb_matrix_set_color(num_row[i], 100, 57, 255);
+                rgb_matrix_set_color(num_row[i], RGB_CYAN);
             }
             rgb_matrix_set_color(8, 128, 128, 128); // [
             rgb_matrix_set_color(35, 128, 128, 128); // ]
@@ -265,10 +265,10 @@ bool rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color_all(0, 0, 0);
 
             // Arrow keys
-            rgb_matrix_set_color(44, 255, 149, 0); // up
-            rgb_matrix_set_color(43, 255, 149, 0); // down
-            rgb_matrix_set_color(38, 255, 149, 0); // left
-            rgb_matrix_set_color(46, 255, 149, 0); // right
+            rgb_matrix_set_color(44, RGB_GOLD); // up
+            rgb_matrix_set_color(43, RGB_GOLD); // down
+            rgb_matrix_set_color(38, RGB_GOLD); // left
+            rgb_matrix_set_color(46, RGB_GOLD); // right
 
             // Media keys
             rgb_matrix_set_color(34, 0, 128, 32); // Play/Pause
@@ -277,7 +277,7 @@ bool rgb_matrix_indicators_user(void) {
         case L_OSL:
             rgb_matrix_set_color_all(0, 0, 0);
             for (uint8_t i = 0; i < sizeof(num_row); i++) {
-                rgb_matrix_set_color(num_row[i], 128, 107, 0);
+                rgb_matrix_set_color(num_row[i], RGB_GOLD);
             }
 
             // App keys
@@ -289,7 +289,7 @@ bool rgb_matrix_indicators_user(void) {
             rgb_matrix_set_color(8,  46,  182, 125);   // Slack
 
             // Kbd control keys
-            rgb_matrix_set_color(53, 255, 0, 0); // RESET
+            rgb_matrix_set_color(53, 127, 0, 0); // RESET
             break;
     }
     return true;
