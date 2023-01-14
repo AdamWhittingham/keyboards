@@ -113,4 +113,11 @@
     #undef ENABLE_RGB_MATRIX_SOLID_MULTISPLASH
 #endif
 
-#define OLED_FONT_H "keyboards/crkbd/lib/glcdfont.c"
+#ifdef OLED_ENABLE
+    #define OLED_FONT_H "keyboards/crkbd/keymaps/Ad01/glcdfont.c"
+    #define SPLIT_LAYER_STATE_ENABLE
+    #define SPLIT_LED_STATE_ENABLE
+    #define SPLIT_MODS_ENABLE
+    #define SPLIT_OLED_ENABLE
+    #define  OLED_TIMEOUT 10000
+#endif

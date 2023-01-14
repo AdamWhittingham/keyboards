@@ -127,52 +127,63 @@ combo_t key_combos[COMBO_COUNT] = {
 #ifdef OLED_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (!is_keyboard_master()) {
-        return OLED_ROTATION_90;
-    }else{
-        return OLED_ROTATION_90;  // flips the display 180 degrees if offhand
-    }
-    return rotation;
+    return OLED_ROTATION_270;
 }
+
+void oled_osl_logo(void) {
+    static const char PROGMEM font_logo[16] = {0x80, 0x81, 0x82, 0x83, 0x84, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0};
+    oled_write_P(font_logo, false);
+};
+
+void oled_qwerty_logo(void) {
+    static const char PROGMEM font_logo[16] = {0x85, 0x86, 0x87, 0x88, 0x89, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0};
+    oled_write_P(font_logo, false);
+};
+
+void oled_cmd_logo(void) {
+    static const char PROGMEM font_logo[16] = {0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0};
+    oled_write_P(font_logo, false);
+};
+
+void oled_numsym_logo(void) {
+    static const char PROGMEM font_logo[16] = {0x8F, 0x90, 0x91, 0x92, 0x93, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0};
+    oled_write_P(font_logo, false);
+};
+
+void oled_spacer(void) {
+    static const char PROGMEM font_logo[6] = {0x00, 0x00, 0x00, 0x00, 0x00, 0};
+    oled_write_P(font_logo, false);
+};
 
 void oled_render_layer_state(void) {
     switch(get_highest_layer(layer_state|default_layer_state)) {
         case L_QWERTY:
-            oled_write_ln_P(PSTR("abc"), false);
+            oled_qwerty_logo();
             break;
         case L_NUM:
-            oled_write_ln_P(PSTR("12-*!"), false);
+            oled_numsym_logo();
             break;
         case L_CMD:
-            oled_write_ln_P(PSTR("CMD>"), false);
+            oled_cmd_logo();
             break;
         case L_OSL:
-            oled_write_ln_P(PSTR("1-SHOT"), false);
+            oled_osl_logo();
             break;
     }
-
+    oled_spacer();
     oled_write_P(PSTR("\n"), false);
-#ifdef WPM_ENABLE
-    oled_write_P(PSTR("WPM: "), false);
-    oled_write(get_u8_str(get_current_wpm(), ' '), false);
-#endif
-}
-
-void oled_render_logo(void) {
-    static const char PROGMEM crkbd_logo[] = {
-        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
-        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
-        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
-        0};
-    oled_write_P(crkbd_logo, false);
 }
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
         oled_render_layer_state();
     } else {
-        oled_render_logo();
+        oled_render_layer_state();
     }
+#ifdef WPM_ENABLE
+    oled_write_P(PSTR("WPM: "), false);
+    oled_write(get_u8_str(get_current_wpm(), ' '), false);
+#endif
     return false;
 }
 #endif // OLED_ENABLE
@@ -208,7 +219,7 @@ const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
 
 const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_GOLD},
-{13, 2, HSV_GOLD},
+    {13, 2, HSV_GOLD},
     {33, 1, HSV_GOLD},
     {40, 2, HSV_GOLD}
 );
