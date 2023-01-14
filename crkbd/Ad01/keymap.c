@@ -130,7 +130,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (!is_keyboard_master()) {
         return OLED_ROTATION_90;
     }else{
-        return OLED_ROTATION_270;  // flips the display 180 degrees if offhand
+        return OLED_ROTATION_90;  // flips the display 180 degrees if offhand
     }
     return rotation;
 }
@@ -138,10 +138,10 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 void oled_render_layer_state(void) {
     switch(get_highest_layer(layer_state|default_layer_state)) {
         case L_QWERTY:
-            oled_write_ln_P(PSTR("Qwerty"), false);
+            oled_write_ln_P(PSTR("abc"), false);
             break;
         case L_NUM:
-            oled_write_ln_P(PSTR("123 ?#$"), false);
+            oled_write_ln_P(PSTR("12-*!"), false);
             break;
         case L_CMD:
             oled_write_ln_P(PSTR("CMD>"), false);
