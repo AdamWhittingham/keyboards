@@ -75,9 +75,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_LALT, KC_LSFT, XXXXXXX, XXXXXXX, KC_LBRC,                      KC_RBRC, KC_MINS,  KC_EQL, KC_BSLS, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, RGB_HUI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______,   MO(3), _______,    _______, _______, _______
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MUTE,  PLYNXT, KC_VOLD, KC_VOLU, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______,   MO(3), _______
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -103,7 +103,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______,   TO(0), _______,     ALFRED,   TO(0), _______
+                                            TO(0),   TO(0), _______,     ALFRED,   TO(0), _______
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -130,7 +130,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (!is_keyboard_master()) {
         return OLED_ROTATION_90;
     }else{
-        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+        return OLED_ROTATION_270;  // flips the display 180 degrees if offhand
     }
     return rotation;
 }
@@ -178,12 +178,11 @@ bool oled_task_user(void) {
 #endif // OLED_ENABLE
 
 // Keyboard LEDs
-//  23  18  17  10  9          36  37  44  45  50
-//  22  19  16  11  8          35  38  43  46  49
-//  21  20  15  12  7          34  39  42  47  48
-//            14  13  6      33  40  41
+// 24  23  18  17  10  9          36  37  44  45  50  51
+// 25  22  19  16  11  8          35  38  43  46  49  52
+// 26  21  20  15  12  7          34  39  42  47  48  53
+//            14  13  6            33  40  41
 //
-// LEDs 24, 25, and 26 don't exist.
 // Underglow LEDs
 //            2   1   0       27  28  29
 //            3   4   5       32  31  30
@@ -195,7 +194,7 @@ const rgblight_segment_t PROGMEM layer_qwerty[] = RGBLIGHT_LAYER_SEGMENTS(
 
 const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_CYAN},
-{13, 2, HSV_CYAN},
+    {13, 2, HSV_CYAN},
     {33, 1, HSV_CYAN},
     {40, 2, HSV_CYAN}
 );
@@ -237,12 +236,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 #ifdef RGB_MATRIX_ENABLE
 // Keyboard LEDs
-//  23  18  17  10  9          36  37  44  45  50
-//  22  19  16  11  8          35  38  43  46  49
-//  21  20  15  12  7          34  39  42  47  48
-//            14  13  6      33  40  41
+// 24  23  18  17  10  9          36  37  44  45  50  51
+// 25  22  19  16  11  8          35  38  43  46  49  52
+// 26  21  20  15  12  7          34  39  42  47  48  53
+//            14  13  6            33  40  41
 //
-// LEDs 24, 25, and 26 don't exist.
 // Underglow LEDs
 //            2   1   0       27  28  29
 //            3   4   5       32  31  30
@@ -252,20 +250,47 @@ const uint8_t num_row[] = {23, 18, 17, 10, 9, 36, 37, 44, 45, 50};
 bool rgb_matrix_indicators_user(void) {
     switch(get_highest_layer(layer_state|default_layer_state)) {
         case L_QWERTY: //QWERTY
-            rgb_matrix_set_color_all(20, 20, 120);
+            //rgb_matrix_set_color_all(20, 20, 120);
+            rgb_matrix_set_color_all(20, 20, 20);
             break;
         case L_NUM:
-            rgb_matrix_set_color_all(0, 0, 0); // rest of keys
+            rgb_matrix_set_color_all(0, 0, 0);
             for (uint8_t i = 0; i < sizeof(num_row); i++) {
-                rgb_matrix_set_color(num_row[i], 255, 0, 0);
+                rgb_matrix_set_color(num_row[i], 100, 57, 255);
             }
+            rgb_matrix_set_color(8, 128, 128, 128); // [
+            rgb_matrix_set_color(35, 128, 128, 128); // ]
             break;
         case L_CMD:
-            rgb_matrix_set_color_all(0,0,255); // rest of keys
-            rgb_matrix_set_color(1, 0, 100, 255); // key = F1
+            rgb_matrix_set_color_all(0, 0, 0);
+
+            // Arrow keys
+            rgb_matrix_set_color(44, 255, 149, 0); // up
+            rgb_matrix_set_color(43, 255, 149, 0); // down
+            rgb_matrix_set_color(38, 255, 149, 0); // left
+            rgb_matrix_set_color(46, 255, 149, 0); // right
+
+            // Media keys
+            rgb_matrix_set_color(34, 0, 128, 32); // Play/Pause
+            rgb_matrix_set_color(39, 0, 128, 128); // Next
             break;
         case L_OSL:
-            rgb_matrix_set_color_all(HSV_GOLD);
+            rgb_matrix_set_color_all(0, 0, 0);
+            for (uint8_t i = 0; i < sizeof(num_row); i++) {
+                rgb_matrix_set_color(num_row[i], 128, 107, 0);
+            }
+
+            // App keys
+            rgb_matrix_set_color(25, 45,  140, 255);   // Zoom
+            rgb_matrix_set_color(22, 200, 200, 200);   // Calendar
+            rgb_matrix_set_color(19, 255, 149, 0);     // Firefox
+            rgb_matrix_set_color(16, 126, 29,  250);   // Obsidian
+            rgb_matrix_set_color(11, 64,  64,  128);   // Kitty
+            rgb_matrix_set_color(8,  46,  182, 125);   // Slack
+
+            // Kbd control keys
+            rgb_matrix_set_color(53, 255, 0, 0); // RESET
+            break;
     }
     return true;
 }
