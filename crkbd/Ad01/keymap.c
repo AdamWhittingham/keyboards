@@ -174,12 +174,36 @@ void oled_render_layer_state(void) {
     oled_write_P(PSTR("\n"), false);
 }
 
-bool oled_task_user(void) {
-    if (is_keyboard_master()) {
-        oled_render_layer_state();
-    } else {
-        oled_render_layer_state();
+void oled_render_modifier_states(void){
+    uint8_t mod = get_mods() | get_oneshot_mods();
+    if (mod & MOD_MASK_GUI) {
+        oled_write_ln_P(PSTR(" CMD "), true);
+    }else{
+        oled_write_ln_P(PSTR("     "), false);
     }
+    if (mod & MOD_MASK_SHIFT) {
+        oled_write_ln_P(PSTR(" SHF "), true);
+    }else{
+        oled_write_ln_P(PSTR("     "), false);
+    }
+    if (mod & MOD_MASK_ALT) {
+        oled_write_ln_P(PSTR(" ALT "), true);
+    }else{
+        oled_write_ln_P(PSTR("     "), false);
+    }
+    if (mod & MOD_MASK_CTRL) {
+        oled_write_ln_P(PSTR(" CTL "), true);
+    }else{
+        oled_write_ln_P(PSTR("     "), false);
+    }
+}
+
+bool oled_task_user(void) {
+    oled_render_layer_state();
+    if (is_keyboard_master()) {
+        oled_render_modifier_states();
+    }
+
 #ifdef WPM_ENABLE
     oled_write_P(PSTR("WPM: "), false);
     oled_write(get_u8_str(get_current_wpm(), ' '), false);
