@@ -25,14 +25,12 @@
 /* Select hand configuration */
 
 #define MASTER_LEFT
-// #define MASTER_RIGHT
-// #define EE_HANDS
 
 //#define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 250
 
 #define NO_AUTO_SHIFT_ALPHA
-#define COMBO_COUNT 4
+#define COMBO_COUNT 2
 
 #ifdef RGBLIGHT_ENABLE
     #define RGBLIGHT_EFFECT_STATIC_GRADIENT
@@ -43,11 +41,6 @@
     #define RGBLIGHT_LAYERS
     #define RGBLIGHT_MAX_LAYERS 4
     #define RGBLIGHT_SLEEP
-
-    // Set Startup to preferred gradient
-    #define RGB_MATRIX_STARTUP_HUE 60
-    #define RGB_MATRIX_STARTUP_SAT 255
-    #define RGB_MATRIX_STARTUP_VAL 128
 
     #undef RGBLIGHT_ANIMATIONS
     #undef RGBLIGHT_EFFECT_BREATHING
@@ -61,7 +54,14 @@
     #undef RGBLIGHT_EFFECT_TWINKLE
 #endif
 
-#ifdef RGBMATRIX_ENABLE
+#ifdef RGB_MATRIX_ENABLE
+    // Set Startup to preferred gradient
+    #define RGB_MATRIX_STARTUP_HUE 100
+    #define RGB_MATRIX_STARTUP_SAT 255
+    #define RGB_MATRIX_STARTUP_VAL 128
+    #define RGB_DISABLE_WHEN_USB_SUSPENDED true
+    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150
+
     #undef ENABLE_RGB_MATRIX_ALPHAS_MODS
     #undef ENABLE_RGB_MATRIX_GRADIENT_UP_DOWN
     #undef ENABLE_RGB_MATRIX_GRADIENT_LEFT_RIGHT
