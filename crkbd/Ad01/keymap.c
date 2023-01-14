@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_GRV,   KC_1 ,   KC_2 ,   KC_3 ,   KC_4 ,   KC_5 ,                        KC_6 ,   KC_7 ,   KC_8 ,   KC_9 ,    KC_0,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_LALT, KC_LSFT, XXXXXXX, XXXXXXX, KC_LBRC,                      KC_RBRC, KC_MINS,  KC_EQL, KC_BSLS, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LBRC,                      KC_RBRC, KC_MINS,  KC_EQL, KC_BSLS, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -84,11 +84,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // CONTROL Layer - PC & Keyboard controls
   [L_CMD] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV,    WINP,    WINN, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGUP,   KC_UP, KC_PGDN,   TAB_N,  KC_DEL,
+       KC_GRV, XXXXXXX,    WINP,    WINN,   TAB_P,   TAB_N,                      KC_HOME, KC_PGUP,   KC_UP, KC_PGDN,   TAB_N,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    WINL,    WIND,    WINU,    WINR,    WINF,                       KC_END, KC_LEFT, KC_DOWN,KC_RIGHT,   TAB_P, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MUTE,  PLYNXT, KC_VOLD, KC_VOLU, XXXXXXX, _______,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      PLYNXT,  KC_MUTE, KC_VOLD, KC_VOLU, XXXXXXX, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -235,11 +235,11 @@ const rgblight_segment_t PROGMEM layer_numsym_lights[] = RGBLIGHT_LAYER_SEGMENTS
 );
 
 const rgblight_segment_t PROGMEM layer_ctl_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-        {6, 1,  220, 255, 255},
-        {13, 2, 220, 255, 255},
-        {33, 1, 220, 255, 255},
-        {40, 2, 220, 255, 255}
-    );
+    {6, 1,  220, 255, 255},
+    {13, 2, 220, 255, 255},
+    {33, 1, 220, 255, 255},
+    {40, 2, 220, 255, 255}
+);
 
 const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 1, HSV_GOLD},
@@ -249,11 +249,11 @@ const rgblight_segment_t PROGMEM layer_oneshot_lights[] = RGBLIGHT_LAYER_SEGMENT
 );
 
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-        layer_qwerty,
-        layer_numsym_lights,
-        layer_ctl_lights,
-        layer_oneshot_lights
-    );
+    layer_qwerty,
+    layer_numsym_lights,
+    layer_ctl_lights,
+    layer_oneshot_lights
+);
 
 void keyboard_post_init_user(void) {
     rgblight_layers = my_rgb_layers;
