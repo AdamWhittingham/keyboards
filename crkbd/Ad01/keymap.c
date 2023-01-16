@@ -64,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  SFTESC,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           OSL(3),   MO(2),  CMDENT,     KC_SPC,   MO(1),  KC_LALT
+                                           OSL(3),   MO(2),  KC_SPC,     CMDENT,   MO(1),  KC_LALT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -293,11 +293,11 @@ bool rgb_matrix_indicators_user(void) {
             break;
         case L_NUM:
             rgb_matrix_set_color_all(0, 0, 0);
-            for (uint8_t i = 0; i < sizeof(num_row); i++) {
-                rgb_matrix_set_color(num_row[i], RGB_CYAN);
-            }
-            rgb_matrix_set_color(8, 128, 128, 128); // [
-            rgb_matrix_set_color(35, 128, 128, 128); // ]
+            rgb_matrix_set_color(8, RGB_PURPLE); // [
+            rgb_matrix_set_color(35, RGB_PURPLE); // ]
+            rgb_matrix_set_color(11, RGB_GREEN); // '
+            rgb_matrix_set_color(16, RGB_GREEN); // "
+            rgb_matrix_set_color(38, RGB_WHITE); // "
             break;
         case L_CMD:
             rgb_matrix_set_color_all(0, 0, 0);
